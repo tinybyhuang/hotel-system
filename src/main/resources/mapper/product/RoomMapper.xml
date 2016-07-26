@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.distinct.hotel.product.dao.RoomMapper">
+	<resultMap id="BaseResultMap" type="com.distinct.hotel.product.model.Room">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="provider_id" property="providerId" jdbcType="INTEGER" />
+		<result column="provider_room_id" property="providerRoomId"
+			jdbcType="INTEGER" />
+		<result column="hotel_id" property="hotelId" jdbcType="INTEGER" />
+		<result column="room_name" property="roomName" jdbcType="VARCHAR" />
+		<result column="room_bed_type" property="roomBedType" jdbcType="INTEGER" />
+		<result column="room_floor" property="roomFloor" jdbcType="VARCHAR" />
+		<result column="room_window" property="roomWindow" jdbcType="VARCHAR" />
+		<result column="room_wifi" property="roomWifi" jdbcType="VARCHAR" />
+		<result column="room_wash" property="roomWash" jdbcType="VARCHAR" />
+		<result column="created" property="created" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		id, provider_id, provider_room_id, hotel_id, room_name,
+		room_bed_type,
+		room_floor,
+		room_window, room_wifi, room_wash, created
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.distinct.hotel.product.model.RoomExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from t_room
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_room
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_room
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.distinct.hotel.product.model.RoomExample">
+		delete from t_room
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.distinct.hotel.product.model.Room">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into t_room (provider_id, provider_room_id, hotel_id,
+		room_name, room_bed_type, room_floor,
+		room_window, room_wifi,
+		room_wash,
+		created)
+		values (#{providerId,jdbcType=INTEGER},
+		#{providerRoomId,jdbcType=INTEGER},
+		#{hotelId,jdbcType=INTEGER},
+		#{roomName,jdbcType=VARCHAR}, #{roomBedType,jdbcType=INTEGER},
+		#{roomFloor,jdbcType=VARCHAR},
+		#{roomWindow,jdbcType=VARCHAR},
+		#{roomWifi,jdbcType=VARCHAR},
+		#{roomWash,jdbcType=VARCHAR},
+		#{created,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.distinct.hotel.product.model.Room">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into t_room
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="providerId != null">
+				provider_id,
+			</if>
+			<if test="providerRoomId != null">
+				provider_room_id,
+			</if>
+			<if test="hotelId != null">
+				hotel_id,
+			</if>
+			<if test="roomName != null">
+				room_name,
+			</if>
+			<if test="roomBedType != null">
+				room_bed_type,
+			</if>
+			<if test="roomFloor != null">
+				room_floor,
+			</if>
+			<if test="roomWindow != null">
+				room_window,
+			</if>
+			<if test="roomWifi != null">
+				room_wifi,
+			</if>
+			<if test="roomWash != null">
+				room_wash,
+			</if>
+			<if test="created != null">
+				created,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="providerId != null">
+				#{providerId,jdbcType=INTEGER},
+			</if>
+			<if test="providerRoomId != null">
+				#{providerRoomId,jdbcType=INTEGER},
+			</if>
+			<if test="hotelId != null">
+				#{hotelId,jdbcType=INTEGER},
+			</if>
+			<if test="roomName != null">
+				#{roomName,jdbcType=VARCHAR},
+			</if>
+			<if test="roomBedType != null">
+				#{roomBedType,jdbcType=INTEGER},
+			</if>
+			<if test="roomFloor != null">
+				#{roomFloor,jdbcType=VARCHAR},
+			</if>
+			<if test="roomWindow != null">
+				#{roomWindow,jdbcType=VARCHAR},
+			</if>
+			<if test="roomWifi != null">
+				#{roomWifi,jdbcType=VARCHAR},
+			</if>
+			<if test="roomWash != null">
+				#{roomWash,jdbcType=VARCHAR},
+			</if>
+			<if test="created != null">
+				#{created,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.distinct.hotel.product.model.RoomExample"
+		resultType="java.lang.Integer">
+		select count(*) from t_room
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update t_room
+		<set>
+			<if test="record.id != null">
+				id = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.providerId != null">
+				provider_id = #{record.providerId,jdbcType=INTEGER},
+			</if>
+			<if test="record.providerRoomId != null">
+				provider_room_id =
+				#{record.providerRoomId,jdbcType=INTEGER},
+			</if>
+			<if test="record.hotelId != null">
+				hotel_id = #{record.hotelId,jdbcType=INTEGER},
+			</if>
+			<if test="record.roomName != null">
+				room_name = #{record.roomName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.roomBedType != null">
+				room_bed_type = #{record.roomBedType,jdbcType=INTEGER},
+			</if>
+			<if test="record.roomFloor != null">
+				room_floor = #{record.roomFloor,jdbcType=VARCHAR},
+			</if>
+			<if test="record.roomWindow != null">
+				room_window = #{record.roomWindow,jdbcType=VARCHAR},
+			</if>
+			<if test="record.roomWifi != null">
+				room_wifi = #{record.roomWifi,jdbcType=VARCHAR},
+			</if>
+			<if test="record.roomWash != null">
+				room_wash = #{record.roomWash,jdbcType=VARCHAR},
+			</if>
+			<if test="record.created != null">
+				created = #{record.created,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update t_room
+		set id = #{record.id,jdbcType=INTEGER},
+		provider_id =
+		#{record.providerId,jdbcType=INTEGER},
+		provider_room_id =
+		#{record.providerRoomId,jdbcType=INTEGER},
+		hotel_id =
+		#{record.hotelId,jdbcType=INTEGER},
+		room_name =
+		#{record.roomName,jdbcType=VARCHAR},
+		room_bed_type =
+		#{record.roomBedType,jdbcType=INTEGER},
+		room_floor =
+		#{record.roomFloor,jdbcType=VARCHAR},
+		room_window =
+		#{record.roomWindow,jdbcType=VARCHAR},
+		room_wifi =
+		#{record.roomWifi,jdbcType=VARCHAR},
+		room_wash =
+		#{record.roomWash,jdbcType=VARCHAR},
+		created =
+		#{record.created,jdbcType=TIMESTAMP}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.distinct.hotel.product.model.Room">
+		update t_room
+		<set>
+			<if test="providerId != null">
+				provider_id = #{providerId,jdbcType=INTEGER},
+			</if>
+			<if test="providerRoomId != null">
+				provider_room_id = #{providerRoomId,jdbcType=INTEGER},
+			</if>
+			<if test="hotelId != null">
+				hotel_id = #{hotelId,jdbcType=INTEGER},
+			</if>
+			<if test="roomName != null">
+				room_name = #{roomName,jdbcType=VARCHAR},
+			</if>
+			<if test="roomBedType != null">
+				room_bed_type = #{roomBedType,jdbcType=INTEGER},
+			</if>
+			<if test="roomFloor != null">
+				room_floor = #{roomFloor,jdbcType=VARCHAR},
+			</if>
+			<if test="roomWindow != null">
+				room_window = #{roomWindow,jdbcType=VARCHAR},
+			</if>
+			<if test="roomWifi != null">
+				room_wifi = #{roomWifi,jdbcType=VARCHAR},
+			</if>
+			<if test="roomWash != null">
+				room_wash = #{roomWash,jdbcType=VARCHAR},
+			</if>
+			<if test="created != null">
+				created = #{created,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.distinct.hotel.product.model.Room">
+		update t_room
+		set
+		provider_id = #{providerId,jdbcType=INTEGER},
+		provider_room_id =
+		#{providerRoomId,jdbcType=INTEGER},
+		hotel_id =
+		#{hotelId,jdbcType=INTEGER},
+		room_name = #{roomName,jdbcType=VARCHAR},
+		room_bed_type = #{roomBedType,jdbcType=INTEGER},
+		room_floor =
+		#{roomFloor,jdbcType=VARCHAR},
+		room_window =
+		#{roomWindow,jdbcType=VARCHAR},
+		room_wifi =
+		#{roomWifi,jdbcType=VARCHAR},
+		room_wash = #{roomWash,jdbcType=VARCHAR},
+		created = #{created,jdbcType=TIMESTAMP}
+		where id =
+		#{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="getRoomIds" resultType="java.lang.Integer">
+		SELECT id from t_room GROUP
+		BY provider_room_id
+	</select>
+
+	<delete id="deleteRooms" parameterType="java.lang.Integer">
+		delete from t_room
+		where id not in
+		<foreach collection="roomIds" item="item" index="index" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<select id="findRoom" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_room GROUP
+		BY provider_room_id
+	</select>
+
+	<select id="findRoomByHotelIds" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_room where hotel_id in
+		<foreach collection="hotelIds" item="item" index="index" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="findRoomByHotelId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_room where hotel_id = #{hotelId,jdbcType=INTEGER}
+	</select>
+
+
+	<select id="selectByRoomId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_room
+		where provider_room_id = #{roomId,jdbcType=INTEGER}
+	</select>
+
+</mapper>

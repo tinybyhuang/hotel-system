@@ -1,0 +1,716 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.distinct.hotel.order.dao.OrderMapper">
+	<resultMap id="BaseResultMap" type="com.distinct.hotel.order.model.Order">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="market_id" property="marketId" jdbcType="INTEGER" />
+		<result column="market_order_no" property="marketOrderNo"
+			jdbcType="VARCHAR" />
+		<result column="provider_id" property="providerId" jdbcType="INTEGER" />
+		<result column="provider_order_no" property="providerOrderNo"
+			jdbcType="VARCHAR" />
+		<result column="hotel_id" property="hotelId" jdbcType="VARCHAR" />
+		<result column="hotel_name" property="hotelName" jdbcType="VARCHAR" />
+		<result column="room_id" property="roomId" jdbcType="VARCHAR" />
+		<result column="room_name" property="roomName" jdbcType="VARCHAR" />
+		<result column="book_user" property="bookUser" jdbcType="VARCHAR" />
+		<result column="book_amout" property="bookAmout" jdbcType="INTEGER" />
+		<result column="book_phone" property="bookPhone" jdbcType="VARCHAR" />
+		<result column="begin_date" property="beginDate" jdbcType="DATE" />
+		<result column="end_date" property="endDate" jdbcType="DATE" />
+		<result column="days" property="days" jdbcType="INTEGER" />
+		<result column="market_amount" property="marketAmount"
+			jdbcType="REAL" />
+		<result column="provider_amount" property="providerAmount"
+			jdbcType="REAL" />
+		<result column="market_status" property="marketStatus"
+			jdbcType="VARCHAR" />
+		<result column="provider_status" property="providerStatus"
+			jdbcType="VARCHAR" />
+		<result column="created" property="created" jdbcType="TIMESTAMP" />
+		<result column="user_id" property="userId" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.distinct.hotel.order.model.Order"
+		extends="BaseResultMap">
+		<result column="state" property="state" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		id, market_id, market_order_no, provider_id,
+		provider_order_no, hotel_id,
+		hotel_name,
+		room_id, room_name, book_user,
+		book_amout, book_phone, begin_date, end_date,
+		days,
+		market_amount,
+		provider_amount, market_status, provider_status, created, user_id
+	</sql>
+	<sql id="Blob_Column_List">
+		state
+	</sql>
+	<select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs"
+		parameterType="com.distinct.hotel.order.model.OrderExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from t_order
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.distinct.hotel.order.model.OrderExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from t_order
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from t_order
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		t_order
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.distinct.hotel.order.model.OrderExample">
+		delete from t_order
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.distinct.hotel.order.model.Order">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into t_order (market_id, market_order_no, provider_id,
+		provider_order_no, hotel_id, hotel_name,
+		room_id, room_name, book_user,
+		book_amout, book_phone, begin_date,
+		end_date, days, market_amount,
+		provider_amount, market_status, provider_status,
+		created, state,user_id)
+		values
+		(#{marketId,jdbcType=INTEGER}, #{marketOrderNo,jdbcType=VARCHAR},
+		#{providerId,jdbcType=INTEGER},
+		#{providerOrderNo,jdbcType=VARCHAR},
+		#{hotelId,jdbcType=VARCHAR}, #{hotelName,jdbcType=VARCHAR},
+		#{roomId,jdbcType=VARCHAR}, #{roomName,jdbcType=VARCHAR},
+		#{bookUser,jdbcType=VARCHAR},
+		#{bookAmout,jdbcType=INTEGER},
+		#{bookPhone,jdbcType=VARCHAR}, #{beginDate,jdbcType=DATE},
+		#{endDate,jdbcType=DATE}, #{days,jdbcType=INTEGER},
+		#{marketAmount,jdbcType=REAL},
+		#{providerAmount,jdbcType=REAL},
+		#{marketStatus,jdbcType=VARCHAR}, #{providerStatus,jdbcType=VARCHAR},
+		#{created,jdbcType=TIMESTAMP}, #{state,jdbcType=LONGVARCHAR},#{userId,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.distinct.hotel.order.model.Order">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into t_order
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="marketId != null">
+				market_id,
+			</if>
+			<if test="marketOrderNo != null">
+				market_order_no,
+			</if>
+			<if test="providerId != null">
+				provider_id,
+			</if>
+			<if test="providerOrderNo != null">
+				provider_order_no,
+			</if>
+			<if test="hotelId != null">
+				hotel_id,
+			</if>
+			<if test="hotelName != null">
+				hotel_name,
+			</if>
+			<if test="roomId != null">
+				room_id,
+			</if>
+			<if test="roomName != null">
+				room_name,
+			</if>
+			<if test="bookUser != null">
+				book_user,
+			</if>
+			<if test="bookAmout != null">
+				book_amout,
+			</if>
+			<if test="bookPhone != null">
+				book_phone,
+			</if>
+			<if test="beginDate != null">
+				begin_date,
+			</if>
+			<if test="endDate != null">
+				end_date,
+			</if>
+			<if test="days != null">
+				days,
+			</if>
+			<if test="marketAmount != null">
+				market_amount,
+			</if>
+			<if test="providerAmount != null">
+				provider_amount,
+			</if>
+			<if test="marketStatus != null">
+				market_status,
+			</if>
+			<if test="providerStatus != null">
+				provider_status,
+			</if>
+			<if test="created != null">
+				created,
+			</if>
+			<if test="state != null">
+				state,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="marketId != null">
+				#{marketId,jdbcType=INTEGER},
+			</if>
+			<if test="marketOrderNo != null">
+				#{marketOrderNo,jdbcType=VARCHAR},
+			</if>
+			<if test="providerId != null">
+				#{providerId,jdbcType=INTEGER},
+			</if>
+			<if test="providerOrderNo != null">
+				#{providerOrderNo,jdbcType=VARCHAR},
+			</if>
+			<if test="hotelId != null">
+				#{hotelId,jdbcType=VARCHAR},
+			</if>
+			<if test="hotelName != null">
+				#{hotelName,jdbcType=VARCHAR},
+			</if>
+			<if test="roomId != null">
+				#{roomId,jdbcType=VARCHAR},
+			</if>
+			<if test="roomName != null">
+				#{roomName,jdbcType=VARCHAR},
+			</if>
+			<if test="bookUser != null">
+				#{bookUser,jdbcType=VARCHAR},
+			</if>
+			<if test="bookAmout != null">
+				#{bookAmout,jdbcType=INTEGER},
+			</if>
+			<if test="bookPhone != null">
+				#{bookPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="beginDate != null">
+				#{beginDate,jdbcType=DATE},
+			</if>
+			<if test="endDate != null">
+				#{endDate,jdbcType=DATE},
+			</if>
+			<if test="days != null">
+				#{days,jdbcType=INTEGER},
+			</if>
+			<if test="marketAmount != null">
+				#{marketAmount,jdbcType=REAL},
+			</if>
+			<if test="providerAmount != null">
+				#{providerAmount,jdbcType=REAL},
+			</if>
+			<if test="marketStatus != null">
+				#{marketStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="providerStatus != null">
+				#{providerStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="created != null">
+				#{created,jdbcType=TIMESTAMP},
+			</if>
+			<if test="state != null">
+				#{state,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.distinct.hotel.order.model.OrderExample"
+		resultType="java.lang.Integer">
+		select count(*) from t_order
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update t_order
+		<set>
+			<if test="record.id != null">
+				id = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.marketId != null">
+				market_id = #{record.marketId,jdbcType=INTEGER},
+			</if>
+			<if test="record.marketOrderNo != null">
+				market_order_no =
+				#{record.marketOrderNo,jdbcType=VARCHAR},
+			</if>
+			<if test="record.providerId != null">
+				provider_id = #{record.providerId,jdbcType=INTEGER},
+			</if>
+			<if test="record.providerOrderNo != null">
+				provider_order_no =
+				#{record.providerOrderNo,jdbcType=VARCHAR},
+			</if>
+			<if test="record.hotelId != null">
+				hotel_id = #{record.hotelId,jdbcType=VARCHAR},
+			</if>
+			<if test="record.hotelName != null">
+				hotel_name = #{record.hotelName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.roomId != null">
+				room_id = #{record.roomId,jdbcType=VARCHAR},
+			</if>
+			<if test="record.roomName != null">
+				room_name = #{record.roomName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.bookUser != null">
+				book_user = #{record.bookUser,jdbcType=VARCHAR},
+			</if>
+			<if test="record.bookAmout != null">
+				book_amout = #{record.bookAmout,jdbcType=INTEGER},
+			</if>
+			<if test="record.bookPhone != null">
+				book_phone = #{record.bookPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="record.beginDate != null">
+				begin_date = #{record.beginDate,jdbcType=DATE},
+			</if>
+			<if test="record.endDate != null">
+				end_date = #{record.endDate,jdbcType=DATE},
+			</if>
+			<if test="record.days != null">
+				days = #{record.days,jdbcType=INTEGER},
+			</if>
+			<if test="record.marketAmount != null">
+				market_amount = #{record.marketAmount,jdbcType=REAL},
+			</if>
+			<if test="record.providerAmount != null">
+				provider_amount = #{record.providerAmount,jdbcType=REAL},
+			</if>
+			<if test="record.marketStatus != null">
+				market_status = #{record.marketStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="record.providerStatus != null">
+				provider_status =
+				#{record.providerStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="record.created != null">
+				created = #{record.created,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.state != null">
+				state = #{record.state,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.userId != null">
+				user_id = #{userId.state,jdbcType=INTEGER},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExampleWithBLOBs" parameterType="map">
+		update t_order
+		set id = #{record.id,jdbcType=INTEGER},
+		market_id =
+		#{record.marketId,jdbcType=INTEGER},
+		market_order_no =
+		#{record.marketOrderNo,jdbcType=VARCHAR},
+		provider_id =
+		#{record.providerId,jdbcType=INTEGER},
+		provider_order_no =
+		#{record.providerOrderNo,jdbcType=VARCHAR},
+		hotel_id =
+		#{record.hotelId,jdbcType=VARCHAR},
+		hotel_name =
+		#{record.hotelName,jdbcType=VARCHAR},
+		room_id =
+		#{record.roomId,jdbcType=VARCHAR},
+		room_name =
+		#{record.roomName,jdbcType=VARCHAR},
+		book_user =
+		#{record.bookUser,jdbcType=VARCHAR},
+		book_amout =
+		#{record.bookAmout,jdbcType=INTEGER},
+		book_phone =
+		#{record.bookPhone,jdbcType=VARCHAR},
+		begin_date =
+		#{record.beginDate,jdbcType=DATE},
+		end_date =
+		#{record.endDate,jdbcType=DATE},
+		days =
+		#{record.days,jdbcType=INTEGER},
+		market_amount =
+		#{record.marketAmount,jdbcType=REAL},
+		provider_amount =
+		#{record.providerAmount,jdbcType=REAL},
+		market_status =
+		#{record.marketStatus,jdbcType=VARCHAR},
+		provider_status =
+		#{record.providerStatus,jdbcType=VARCHAR},
+		created =
+		#{record.created,jdbcType=TIMESTAMP},
+		state =
+		#{record.state,jdbcType=LONGVARCHAR},
+		user_id =
+		#{record.userId,jdbcType=INTEGER}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update t_order
+		set id = #{record.id,jdbcType=INTEGER},
+		market_id =
+		#{record.marketId,jdbcType=INTEGER},
+		market_order_no =
+		#{record.marketOrderNo,jdbcType=VARCHAR},
+		provider_id =
+		#{record.providerId,jdbcType=INTEGER},
+		provider_order_no =
+		#{record.providerOrderNo,jdbcType=VARCHAR},
+		hotel_id =
+		#{record.hotelId,jdbcType=VARCHAR},
+		hotel_name =
+		#{record.hotelName,jdbcType=VARCHAR},
+		room_id =
+		#{record.roomId,jdbcType=VARCHAR},
+		room_name =
+		#{record.roomName,jdbcType=VARCHAR},
+		book_user =
+		#{record.bookUser,jdbcType=VARCHAR},
+		book_amout =
+		#{record.bookAmout,jdbcType=INTEGER},
+		book_phone =
+		#{record.bookPhone,jdbcType=VARCHAR},
+		begin_date =
+		#{record.beginDate,jdbcType=DATE},
+		end_date =
+		#{record.endDate,jdbcType=DATE},
+		days =
+		#{record.days,jdbcType=INTEGER},
+		market_amount =
+		#{record.marketAmount,jdbcType=REAL},
+		provider_amount =
+		#{record.providerAmount,jdbcType=REAL},
+		market_status =
+		#{record.marketStatus,jdbcType=VARCHAR},
+		provider_status =
+		#{record.providerStatus,jdbcType=VARCHAR},
+		created =
+		#{record.created,jdbcType=TIMESTAMP},
+		user_id =
+		#{record.userId,jdbcType=INTEGER}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.distinct.hotel.order.model.Order">
+		update t_order
+		<set>
+			<if test="marketId != null">
+				market_id = #{marketId,jdbcType=INTEGER},
+			</if>
+			<if test="marketOrderNo != null">
+				market_order_no = #{marketOrderNo,jdbcType=VARCHAR},
+			</if>
+			<if test="providerId != null">
+				provider_id = #{providerId,jdbcType=INTEGER},
+			</if>
+			<if test="providerOrderNo != null">
+				provider_order_no = #{providerOrderNo,jdbcType=VARCHAR},
+			</if>
+			<if test="hotelId != null">
+				hotel_id = #{hotelId,jdbcType=VARCHAR},
+			</if>
+			<if test="hotelName != null">
+				hotel_name = #{hotelName,jdbcType=VARCHAR},
+			</if>
+			<if test="roomId != null">
+				room_id = #{roomId,jdbcType=VARCHAR},
+			</if>
+			<if test="roomName != null">
+				room_name = #{roomName,jdbcType=VARCHAR},
+			</if>
+			<if test="bookUser != null">
+				book_user = #{bookUser,jdbcType=VARCHAR},
+			</if>
+			<if test="bookAmout != null">
+				book_amout = #{bookAmout,jdbcType=INTEGER},
+			</if>
+			<if test="bookPhone != null">
+				book_phone = #{bookPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="beginDate != null">
+				begin_date = #{beginDate,jdbcType=DATE},
+			</if>
+			<if test="endDate != null">
+				end_date = #{endDate,jdbcType=DATE},
+			</if>
+			<if test="days != null">
+				days = #{days,jdbcType=INTEGER},
+			</if>
+			<if test="marketAmount != null">
+				market_amount = #{marketAmount,jdbcType=REAL},
+			</if>
+			<if test="providerAmount != null">
+				provider_amount = #{providerAmount,jdbcType=REAL},
+			</if>
+			<if test="marketStatus != null">
+				market_status = #{marketStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="providerStatus != null">
+				provider_status = #{providerStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="created != null">
+				created = #{created,jdbcType=TIMESTAMP},
+			</if>
+			<if test="state != null">
+				state = #{state,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.distinct.hotel.order.model.Order">
+		update
+		t_order
+		set market_id = #{marketId,jdbcType=INTEGER},
+		market_order_no =
+		#{marketOrderNo,jdbcType=VARCHAR},
+		provider_id =
+		#{providerId,jdbcType=INTEGER},
+		provider_order_no =
+		#{providerOrderNo,jdbcType=VARCHAR},
+		hotel_id =
+		#{hotelId,jdbcType=VARCHAR},
+		hotel_name =
+		#{hotelName,jdbcType=VARCHAR},
+		room_id = #{roomId,jdbcType=VARCHAR},
+		room_name = #{roomName,jdbcType=VARCHAR},
+		book_user =
+		#{bookUser,jdbcType=VARCHAR},
+		book_amout =
+		#{bookAmout,jdbcType=INTEGER},
+		book_phone =
+		#{bookPhone,jdbcType=VARCHAR},
+		begin_date = #{beginDate,jdbcType=DATE},
+		end_date = #{endDate,jdbcType=DATE},
+		days = #{days,jdbcType=INTEGER},
+		market_amount = #{marketAmount,jdbcType=REAL},
+		provider_amount =
+		#{providerAmount,jdbcType=REAL},
+		market_status =
+		#{marketStatus,jdbcType=VARCHAR},
+		provider_status =
+		#{providerStatus,jdbcType=VARCHAR},
+		created =
+		#{created,jdbcType=TIMESTAMP},
+		state = #{state,jdbcType=LONGVARCHAR},
+		user_id =
+		#{record.userId,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.distinct.hotel.order.model.Order">
+		update t_order
+		set
+		market_id = #{marketId,jdbcType=INTEGER},
+		market_order_no =
+		#{marketOrderNo,jdbcType=VARCHAR},
+		provider_id =
+		#{providerId,jdbcType=INTEGER},
+		provider_order_no =
+		#{providerOrderNo,jdbcType=VARCHAR},
+		hotel_id =
+		#{hotelId,jdbcType=VARCHAR},
+		hotel_name =
+		#{hotelName,jdbcType=VARCHAR},
+		room_id = #{roomId,jdbcType=VARCHAR},
+		room_name = #{roomName,jdbcType=VARCHAR},
+		book_user =
+		#{bookUser,jdbcType=VARCHAR},
+		book_amout =
+		#{bookAmout,jdbcType=INTEGER},
+		book_phone =
+		#{bookPhone,jdbcType=VARCHAR},
+		begin_date = #{beginDate,jdbcType=DATE},
+		end_date = #{endDate,jdbcType=DATE},
+		days = #{days,jdbcType=INTEGER},
+		market_amount = #{marketAmount,jdbcType=REAL},
+		provider_amount =
+		#{providerAmount,jdbcType=REAL},
+		market_status =
+		#{marketStatus,jdbcType=VARCHAR},
+		provider_status =
+		#{providerStatus,jdbcType=VARCHAR},
+		created =
+		#{created,jdbcType=TIMESTAMP},
+		user_id =
+		#{userId,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="findAllMarketId" resultType="java.lang.Integer">
+		select
+		DISTINCT
+		market_id
+		from
+		t_order
+	</select>
+
+	<select id="findAllOrder" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from
+		t_order
+	</select>
+
+	<select id="findOrderPurpose" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from
+		t_order
+		<where>
+			<if test=" marketId != null and  marketId != '' ">
+				market_id = #{marketId,jdbcType=INTEGER}
+			</if>
+			<if test="providerId != null and  providerId != '' ">
+				and provider_id = #{providerId,jdbcType=INTEGER}
+			</if>
+			<if test="hotelName != null and  hotelName != ''  ">
+				and hotel_name like '%${hotelName}%'
+			</if>
+			<if test="roomName != null and  roomName != '' ">
+				and room_name like '%${roomName}%'
+			</if>
+			<if test="marketStatus != null and  marketStatus != ''">
+				and market_status = #{marketStatus,jdbcType=VARCHAR}
+			</if>
+			<if test="days != null and  days != ''">
+				and days = #{days,jdbcType=INTEGER}
+			</if>
+			<if test="bookAmount != null and  bookAmount != ''">
+				and book_amount = #{bookAmount,jdbcType=INTEGER}
+			</if>
+			<if test="marketAmount != null and  marketAmount != ''">
+				and market_amount = #{marketAmount,jdbcType=REAL}
+			</if>
+			<if test="beginDate != null and  beginDate != ''">
+				and begin_date = #{marketId,jdbcType=DATE}
+			</if>
+			<if test="endDate != null and  endDate != '' ">
+			    and end_date = #{endDate,jdbcType=DATE}
+			</if>
+		</where>
+	</select>
+
+</mapper>

@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.distinct.hotel.user.dao.UserMapper">
+	<resultMap id="BaseResultMap" type="com.distinct.hotel.user.model.User">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="pwd" property="pwd" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="company" property="company" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="created" property="created" jdbcType="TIMESTAMP" />
+		<result column="modified" property="modified" jdbcType="TIMESTAMP" />
+		<result column="mod_user_id" property="modUserId" jdbcType="INTEGER" />
+		<result column="last_login_date" property="lastLoginDate"
+			jdbcType="TIMESTAMP" />
+		<result column="last_login_ip" property="lastLoginIp" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="UsernameMap" type="java.lang.String">
+		<result column="username" property="username" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		id, username, pwd, phone, company, remark, created,
+		modified,
+		mod_user_id, last_login_date,
+		last_login_ip
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.distinct.hotel.user.model.UserExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from t_user
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_user
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.distinct.hotel.user.model.UserExample">
+		delete from t_user
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.distinct.hotel.user.model.User">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into t_user (username, pwd, phone,
+		company, remark, created,
+		modified, mod_user_id, last_login_date,
+		last_login_ip)
+		values
+		(#{username,jdbcType=VARCHAR}, md5(#{pwd,jdbcType=VARCHAR}),
+		#{phone,jdbcType=VARCHAR},
+		#{company,jdbcType=VARCHAR},
+		#{remark,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP},
+		#{modified,jdbcType=TIMESTAMP}, #{modUserId,jdbcType=INTEGER},
+		#{lastLoginDate,jdbcType=TIMESTAMP},
+		#{lastLoginIp,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.distinct.hotel.user.model.User">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into t_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="username != null">
+				username,
+			</if>
+			<if test="pwd != null">
+				pwd,
+			</if>
+			<if test="phone != null">
+				phone,
+			</if>
+			<if test="company != null">
+				company,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+			<if test="created != null">
+				created,
+			</if>
+			<if test="modified != null">
+				modified,
+			</if>
+			<if test="modUserId != null">
+				mod_user_id,
+			</if>
+			<if test="lastLoginDate != null">
+				last_login_date,
+			</if>
+			<if test="lastLoginIp != null">
+				last_login_ip,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="username != null">
+				#{username,jdbcType=VARCHAR},
+			</if>
+			<if test="pwd != null">
+				#{pwd,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="company != null">
+				#{company,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="created != null">
+				#{created,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modified != null">
+				#{modified,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modUserId != null">
+				#{modUserId,jdbcType=INTEGER},
+			</if>
+			<if test="lastLoginDate != null">
+				#{lastLoginDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="lastLoginIp != null">
+				#{lastLoginIp,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.distinct.hotel.user.model.UserExample"
+		resultType="java.lang.Integer">
+		select count(*) from t_user
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update t_user
+		<set>
+			<if test="record.id != null">
+				id = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.username != null">
+				username = #{record.username,jdbcType=VARCHAR},
+			</if>
+			<if test="record.pwd != null">
+				pwd = #{record.pwd,jdbcType=VARCHAR},
+			</if>
+			<if test="record.phone != null">
+				phone = #{record.phone,jdbcType=VARCHAR},
+			</if>
+			<if test="record.company != null">
+				company = #{record.company,jdbcType=VARCHAR},
+			</if>
+			<if test="record.remark != null">
+				remark = #{record.remark,jdbcType=VARCHAR},
+			</if>
+			<if test="record.created != null">
+				created = #{record.created,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.modified != null">
+				modified = #{record.modified,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.modUserId != null">
+				mod_user_id = #{record.modUserId,jdbcType=INTEGER},
+			</if>
+			<if test="record.lastLoginDate != null">
+				last_login_date =
+				#{record.lastLoginDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.lastLoginIp != null">
+				last_login_ip = #{record.lastLoginIp,jdbcType=VARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update t_user
+		set id = #{record.id,jdbcType=INTEGER},
+		username =
+		#{record.username,jdbcType=VARCHAR},
+		pwd =
+		#{record.pwd,jdbcType=VARCHAR},
+		phone =
+		#{record.phone,jdbcType=VARCHAR},
+		company =
+		#{record.company,jdbcType=VARCHAR},
+		remark =
+		#{record.remark,jdbcType=VARCHAR},
+		created =
+		#{record.created,jdbcType=TIMESTAMP},
+		modified =
+		#{record.modified,jdbcType=TIMESTAMP},
+		mod_user_id =
+		#{record.modUserId,jdbcType=INTEGER},
+		last_login_date =
+		#{record.lastLoginDate,jdbcType=TIMESTAMP},
+		last_login_ip =
+		#{record.lastLoginIp,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.distinct.hotel.user.model.User">
+		update t_user
+		<set>
+			<if test="username != null">
+				username = #{username,jdbcType=VARCHAR},
+			</if>
+			<if test="pwd != null">
+				pwd = #{pwd,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				phone = #{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="company != null">
+				company = #{company,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="created != null">
+				created = #{created,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modified != null">
+				modified = #{modified,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modUserId != null">
+				mod_user_id = #{modUserId,jdbcType=INTEGER},
+			</if>
+			<if test="lastLoginDate != null">
+				last_login_date = #{lastLoginDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="lastLoginIp != null">
+				last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.distinct.hotel.user.model.User">
+		update t_user
+		set
+		username = #{username,jdbcType=VARCHAR},
+		pwd = #{pwd,jdbcType=VARCHAR},
+		phone = #{phone,jdbcType=VARCHAR},
+		company =
+		#{company,jdbcType=VARCHAR},
+		remark = #{remark,jdbcType=VARCHAR},
+		created = #{created,jdbcType=TIMESTAMP},
+		modified =
+		#{modified,jdbcType=TIMESTAMP},
+		mod_user_id =
+		#{modUserId,jdbcType=INTEGER},
+		last_login_date =
+		#{lastLoginDate,jdbcType=TIMESTAMP},
+		last_login_ip =
+		#{lastLoginIp,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+
+	<select id="getUsername" resultType="java.lang.String">
+		select username from t_user limit 1
+	</select>
+	<select id="selectByUAS" resultMap="BaseResultMap">
+		select
+        <include refid="Base_Column_List" />
+		from
+		t_user
+		where username = #{username,jdbcType=VARCHAR} and
+		pwd = md5(#{pwd,jdbcType=VARCHAR})
+	</select>
+
+	<select id="getUserByAccount" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		where username = #{account,jdbcType=VARCHAR}
+	</select>
+
+</mapper>

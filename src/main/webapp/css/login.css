@@ -1,0 +1,121 @@
+.M {
+	background-image: url(../image/background.jpg);
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+}
+
+.A {
+	margin-top: 150px;
+	margin-left: 200px;
+	width: 900px;
+	height: 600px;
+	border: #ABABAB solid 1px;
+}
+
+.a1 {
+	float: left;
+	width: 500px;
+	height: 250px;
+	margin-top: 20px;
+	margin-left: 10px;
+}
+
+.a2 {
+	float: left;
+	width: 350px;
+	height: 398px;
+	border: #D5D5D5 solid 1px;
+	margin-left: 30px;
+	margin-top: 20px;
+}
+
+.form-horizontal {
+	margin-top: 50px;
+}
+
+.login_input ul {
+	width: 328px;
+	float: left;
+	margin-top: 10px;
+	margin-left: 25px;
+	display: inline;
+}
+
+.login_input ul li {
+	width: 303px;
+	float: left;
+	margin-top: 15px;
+}
+
+li {
+	list-style-type: none;
+}
+
+.login_input ul li input {
+	border: #66afe9 1px solid;
+	width: 220px;
+	height: 36px;
+	padding-left: 15px;
+	font-size: 14px;
+	line-height: 40px;
+	float: left;
+}
+
+.login_input ul li input.butns {
+	background: #00b0ed;
+	border: #009FD5 1px solid;
+	font-size: 16px;
+	color: #FFF;
+	cursor: pointer;
+	width: 140px;
+	padding: 0px;
+	height: 42px;
+	line-height: 40px;
+}
+
+.login_input ul li.pass span {
+	float: left;
+}
+
+.login_input ul li input.check {
+	width: 14px;
+	height: 14px;
+	background: #FFF;
+	padding: 0px;
+}
+
+.login_input ul li.pass {
+	font-size: 14px;
+}
+
+.login_input ul li input.check {
+	width: 14px;
+	height: 14px;
+	background: #FFF;
+	padding: 0px;
+}
+
+.login_input ul li.pass a {
+	float: right;
+	color: #0C86D1;
+}
+
+.login_input ul li h1 {
+	font-size: 22px;
+	font-weight: lighter;
+	padding: 0px 0px 5px 0px;
+	float: left;
+}
+
+.login_input ul li label {
+	width: 60px;
+	float: left;
+	color: #333;
+	font-size: 14px;
+	line-height: 40px;
+}
+
+.login_input ul li input.yzm {
+	width: 110px;
+}

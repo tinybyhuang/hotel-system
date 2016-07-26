@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>登录界面</title>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+	<div class="container" style="margin-top: 150px;">
+		<h2 style="margin-left: 36%">酒店投放系统——登录界面</h2><br><br>
+		<form class="form-horizontal" style="width: 50%; margin:0 auto;" method="post" action="login.do">
+		  <div class="form-group">
+		    <label for="username" class="col-sm-2 control-label">用户名</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="username" name="username" placeholder="用户名">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="pwd" class="col-sm-2 control-label">密码</label>
+		    <div class="col-sm-10">
+		      <input type="password" class="form-control" id="pwd" name="pwd" placeholder="密码">
+		    </div>
+		  </div>
+		  
+		  <div class="form-group">
+		    <label for="pwd" class="col-sm-2 control-label">验证码</label>
+		    <div class="col-sm-6">
+		      <input type="text" class="form-control" id="verifycode" name="verifycode" placeholder="验证码">
+		    </div>
+		    <div class="col-sm-4">
+		    	<img id="validate-img" src="code.do" alt="验证码">
+		    </div>
+		  </div>
+		  
+		  <div class="form-group">
+		    <div class="col-sm-offset-5 col-sm-7">
+		      <button type="submit" class="btn btn-success" id="login-btn">登录</button>&nbsp;
+		      <button type="button" class="btn btn-primary">注册</button>
+		    </div>
+		  </div>
+		</form>
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$("#login-btn").click(function(){
+			var username = $("#username").val();
+			var password = $("#pwd").val();
+			if(username.trim().length == 0){
+				alert("用户名不能为空");
+				return false;
+			}
+			if(password.trim().length == 0){
+				alert("密码不能为空");
+				return false;
+			}
+			
+		});
+		
+		$("#validate-img").click(function(){
+			
+			$(this).prop("src",chgUrl("code.do"));
+		});
+	});
+	
+	function chgUrl(url) {
+		var timestamp = (new Date()).valueOf();
+		url = url.substring(0, 17);
+		if ((url.indexOf("&") >= 0)) {
+			url = url + "×tamp=" + timestamp;
+		} else {
+			url = url + "?timestamp=" + timestamp;
+		}
+		return url;
+	}
+</script>
+</html>

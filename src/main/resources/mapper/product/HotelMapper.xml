@@ -1,0 +1,705 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.distinct.hotel.product.dao.HotelMapper">
+	<resultMap id="BaseResultMap" type="com.distinct.hotel.product.model.Hotel">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="provider_id" property="providerId" jdbcType="INTEGER" />
+		<result column="provider_hotel_id" property="providerHotelId"
+			jdbcType="INTEGER" />
+		<result column="city_id" property="cityId" jdbcType="INTEGER" />
+		<result column="hotel_name" property="hotelName" jdbcType="VARCHAR" />
+		<result column="hotel_phone" property="hotelPhone" jdbcType="VARCHAR" />
+		<result column="hotel_address" property="hotelAddress"
+			jdbcType="VARCHAR" />
+		<result column="hotel_website" property="hotelWebsite"
+			jdbcType="VARCHAR" />
+		<result column="hotel_longitude" property="hotelLongitude"
+			jdbcType="VARCHAR" />
+		<result column="hotel_latitude" property="hotelLatitude"
+			jdbcType="VARCHAR" />
+		<result column="hotel_star" property="hotelStar" jdbcType="VARCHAR" />
+		<result column="created" property="created" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.distinct.hotel.product.model.Hotel"
+		extends="BaseResultMap">
+		<result column="hotel_introduction" property="hotelIntroduction"
+			jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		id, provider_id, provider_hotel_id, city_id, hotel_name,
+		hotel_phone,
+		hotel_address,
+		hotel_website, hotel_longitude,
+		hotel_latitude, hotel_star, created
+	</sql>
+	<sql id="Blob_Column_List">
+		hotel_introduction
+	</sql>
+	<select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs"
+		parameterType="com.distinct.hotel.product.model.HotelExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from t_hotel
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.distinct.hotel.product.model.HotelExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from t_hotel
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from t_hotel
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		t_hotel
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.distinct.hotel.product.model.HotelExample">
+		delete from t_hotel
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.distinct.hotel.product.model.Hotel">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into t_hotel (provider_id, provider_hotel_id, city_id,
+		hotel_name, hotel_phone, hotel_address,
+		hotel_website, hotel_longitude,
+		hotel_latitude,
+		hotel_star, created, hotel_introduction
+		)
+		values
+		(#{providerId,jdbcType=INTEGER}, #{providerHotelId,jdbcType=INTEGER},
+		#{cityId,jdbcType=INTEGER},
+		#{hotelName,jdbcType=VARCHAR},
+		#{hotelPhone,jdbcType=VARCHAR}, #{hotelAddress,jdbcType=VARCHAR},
+		#{hotelWebsite,jdbcType=VARCHAR}, #{hotelLongitude,jdbcType=VARCHAR},
+		#{hotelLatitude,jdbcType=VARCHAR},
+		#{hotelStar,jdbcType=VARCHAR},
+		#{created,jdbcType=TIMESTAMP},
+		#{hotelIntroduction,jdbcType=LONGVARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.distinct.hotel.product.model.Hotel">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into t_hotel
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="providerId != null">
+				provider_id,
+			</if>
+			<if test="providerHotelId != null">
+				provider_hotel_id,
+			</if>
+			<if test="cityId != null">
+				city_id,
+			</if>
+			<if test="hotelName != null">
+				hotel_name,
+			</if>
+			<if test="hotelPhone != null">
+				hotel_phone,
+			</if>
+			<if test="hotelAddress != null">
+				hotel_address,
+			</if>
+			<if test="hotelWebsite != null">
+				hotel_website,
+			</if>
+			<if test="hotelLongitude != null">
+				hotel_longitude,
+			</if>
+			<if test="hotelLatitude != null">
+				hotel_latitude,
+			</if>
+			<if test="hotelStar != null">
+				hotel_star,
+			</if>
+			<if test="created != null">
+				created,
+			</if>
+			<if test="hotelIntroduction != null">
+				hotel_introduction,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="providerId != null">
+				#{providerId,jdbcType=INTEGER},
+			</if>
+			<if test="providerHotelId != null">
+				#{providerHotelId,jdbcType=INTEGER},
+			</if>
+			<if test="cityId != null">
+				#{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="hotelName != null">
+				#{hotelName,jdbcType=VARCHAR},
+			</if>
+			<if test="hotelPhone != null">
+				#{hotelPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="hotelAddress != null">
+				#{hotelAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="hotelWebsite != null">
+				#{hotelWebsite,jdbcType=VARCHAR},
+			</if>
+			<if test="hotelLongitude != null">
+				#{hotelLongitude,jdbcType=VARCHAR},
+			</if>
+			<if test="hotelLatitude != null">
+				#{hotelLatitude,jdbcType=VARCHAR},
+			</if>
+			<if test="hotelStar != null">
+				#{hotelStar,jdbcType=VARCHAR},
+			</if>
+			<if test="created != null">
+				#{created,jdbcType=TIMESTAMP},
+			</if>
+			<if test="hotelIntroduction != null">
+				#{hotelIntroduction,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.distinct.hotel.product.model.HotelExample"
+		resultType="java.lang.Integer">
+		select count(*) from t_hotel
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update t_hotel
+		<set>
+			<if test="record.id != null">
+				id = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.providerId != null">
+				provider_id = #{record.providerId,jdbcType=INTEGER},
+			</if>
+			<if test="record.providerHotelId != null">
+				provider_hotel_id =
+				#{record.providerHotelId,jdbcType=INTEGER},
+			</if>
+			<if test="record.cityId != null">
+				city_id = #{record.cityId,jdbcType=INTEGER},
+			</if>
+			<if test="record.hotelName != null">
+				hotel_name = #{record.hotelName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.hotelPhone != null">
+				hotel_phone = #{record.hotelPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="record.hotelAddress != null">
+				hotel_address = #{record.hotelAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="record.hotelWebsite != null">
+				hotel_website = #{record.hotelWebsite,jdbcType=VARCHAR},
+			</if>
+			<if test="record.hotelLongitude != null">
+				hotel_longitude =
+				#{record.hotelLongitude,jdbcType=VARCHAR},
+			</if>
+			<if test="record.hotelLatitude != null">
+				hotel_latitude =
+				#{record.hotelLatitude,jdbcType=VARCHAR},
+			</if>
+			<if test="record.hotelStar != null">
+				hotel_star = #{record.hotelStar,jdbcType=VARCHAR},
+			</if>
+			<if test="record.created != null">
+				created = #{record.created,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.hotelIntroduction != null">
+				hotel_introduction =
+				#{record.hotelIntroduction,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExampleWithBLOBs" parameterType="map">
+		update t_hotel
+		set id = #{record.id,jdbcType=INTEGER},
+		provider_id =
+		#{record.providerId,jdbcType=INTEGER},
+		provider_hotel_id =
+		#{record.providerHotelId,jdbcType=INTEGER},
+		city_id =
+		#{record.cityId,jdbcType=INTEGER},
+		hotel_name =
+		#{record.hotelName,jdbcType=VARCHAR},
+		hotel_phone =
+		#{record.hotelPhone,jdbcType=VARCHAR},
+		hotel_address =
+		#{record.hotelAddress,jdbcType=VARCHAR},
+		hotel_website =
+		#{record.hotelWebsite,jdbcType=VARCHAR},
+		hotel_longitude =
+		#{record.hotelLongitude,jdbcType=VARCHAR},
+		hotel_latitude =
+		#{record.hotelLatitude,jdbcType=VARCHAR},
+		hotel_star =
+		#{record.hotelStar,jdbcType=VARCHAR},
+		created =
+		#{record.created,jdbcType=TIMESTAMP},
+		hotel_introduction =
+		#{record.hotelIntroduction,jdbcType=LONGVARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update t_hotel
+		set id = #{record.id,jdbcType=INTEGER},
+		provider_id =
+		#{record.providerId,jdbcType=INTEGER},
+		provider_hotel_id =
+		#{record.providerHotelId,jdbcType=INTEGER},
+		city_id =
+		#{record.cityId,jdbcType=INTEGER},
+		hotel_name =
+		#{record.hotelName,jdbcType=VARCHAR},
+		hotel_phone =
+		#{record.hotelPhone,jdbcType=VARCHAR},
+		hotel_address =
+		#{record.hotelAddress,jdbcType=VARCHAR},
+		hotel_website =
+		#{record.hotelWebsite,jdbcType=VARCHAR},
+		hotel_longitude =
+		#{record.hotelLongitude,jdbcType=VARCHAR},
+		hotel_latitude =
+		#{record.hotelLatitude,jdbcType=VARCHAR},
+		hotel_star =
+		#{record.hotelStar,jdbcType=VARCHAR},
+		created =
+		#{record.created,jdbcType=TIMESTAMP}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.distinct.hotel.product.model.Hotel">
+		update t_hotel
+		<set>
+			<if test="providerId != null">
+				provider_id = #{providerId,jdbcType=INTEGER},
+			</if>
+			<if test="providerHotelId != null">
+				provider_hotel_id = #{providerHotelId,jdbcType=INTEGER},
+			</if>
+			<if test="cityId != null">
+				city_id = #{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="hotelName != null">
+				hotel_name = #{hotelName,jdbcType=VARCHAR},
+			</if>
+			<if test="hotelPhone != null">
+				hotel_phone = #{hotelPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="hotelAddress != null">
+				hotel_address = #{hotelAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="hotelWebsite != null">
+				hotel_website = #{hotelWebsite,jdbcType=VARCHAR},
+			</if>
+			<if test="hotelLongitude != null">
+				hotel_longitude = #{hotelLongitude,jdbcType=VARCHAR},
+			</if>
+			<if test="hotelLatitude != null">
+				hotel_latitude = #{hotelLatitude,jdbcType=VARCHAR},
+			</if>
+			<if test="hotelStar != null">
+				hotel_star = #{hotelStar,jdbcType=VARCHAR},
+			</if>
+			<if test="created != null">
+				created = #{created,jdbcType=TIMESTAMP},
+			</if>
+			<if test="hotelIntroduction != null">
+				hotel_introduction =
+				#{hotelIntroduction,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.distinct.hotel.product.model.Hotel">
+		update
+		t_hotel
+		set provider_id = #{providerId,jdbcType=INTEGER},
+		provider_hotel_id = #{providerHotelId,jdbcType=INTEGER},
+		city_id =
+		#{cityId,jdbcType=INTEGER},
+		hotel_name = #{hotelName,jdbcType=VARCHAR},
+		hotel_phone = #{hotelPhone,jdbcType=VARCHAR},
+		hotel_address =
+		#{hotelAddress,jdbcType=VARCHAR},
+		hotel_website =
+		#{hotelWebsite,jdbcType=VARCHAR},
+		hotel_longitude =
+		#{hotelLongitude,jdbcType=VARCHAR},
+		hotel_latitude =
+		#{hotelLatitude,jdbcType=VARCHAR},
+		hotel_star =
+		#{hotelStar,jdbcType=VARCHAR},
+		created = #{created,jdbcType=TIMESTAMP},
+		hotel_introduction = #{hotelIntroduction,jdbcType=LONGVARCHAR}
+		where id
+		= #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.distinct.hotel.product.model.Hotel">
+		update t_hotel
+		set
+		provider_id = #{providerId,jdbcType=INTEGER},
+		provider_hotel_id =
+		#{providerHotelId,jdbcType=INTEGER},
+		city_id =
+		#{cityId,jdbcType=INTEGER},
+		hotel_name = #{hotelName,jdbcType=VARCHAR},
+		hotel_phone = #{hotelPhone,jdbcType=VARCHAR},
+		hotel_address =
+		#{hotelAddress,jdbcType=VARCHAR},
+		hotel_website =
+		#{hotelWebsite,jdbcType=VARCHAR},
+		hotel_longitude =
+		#{hotelLongitude,jdbcType=VARCHAR},
+		hotel_latitude =
+		#{hotelLatitude,jdbcType=VARCHAR},
+		hotel_star =
+		#{hotelStar,jdbcType=VARCHAR},
+		created = #{created,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="getHotelIds" resultType="java.lang.Integer">
+		SELECT id from t_hotel GROUP
+		BY provider_hotel_id
+	</select>
+
+	<delete id="deleteHotels" parameterType="java.lang.Integer">
+		delete from t_ho tel
+		where id not in
+		<foreach collection="hotelIds" item="item" index="index" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<select id="getAllHotel" resultType="java.util.List" resultMap="BaseResultMap">
+		select * from t_hotel
+	</select>
+
+	<select id="getDataNumber" resultType="java.lang.Integer">
+
+		select count(*) from
+		t_hotel
+
+	</select>
+
+	<select id="getHotelByCurrentPage" resultType="java.util.List"
+		resultMap="BaseResultMap">
+
+		select * from
+		t_hotel limit
+		#{currentPage,jdbcType=INTEGER} ,
+		#{dataSize,jdbcType=INTEGER};
+
+	</select>
+
+	<select id="findAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from t_hotel
+	</select>
+
+	<!-- 1=1代表恒真 -->
+	<!-- 判断的条件通过and来写在一起，代表并列的关系 -->
+	<!-- 还可以使用<where></where>标签 -->
+	<select id="findPurpose" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from t_hotel
+		where 1=1
+		<if test="hotelName != null and hotelName!='' ">
+			and hotel_name like '%${hotelName}%'
+		</if>
+		<if test="star != null and star !='' ">
+			and hotel_star = #{star,jdbcType=VARCHAR}
+		</if>
+		<if test="city != null and city != '' ">
+			and city_id = #{city,jdbcType=INTEGER}
+		</if>
+		<if test="providerId != null and providerId != '' ">
+			and provider_id = #{providerId,jdbcType=INTEGER}
+		</if>
+	</select>
+
+	<select id="selectByProviderHotelId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from
+		t_hotel
+		where provider_hotel_id = #{hotelId,jdbcType=INTEGER}
+	</select>
+	<!-- this is the method of selectByHotelId -->
+	<select id="selectByHotelId" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from
+		t_hotel where provider_hotel_id in
+		<foreach collection="hotelIdList" item="item" index="index"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	<!-- this is the method of selectWithoutFilterHotelId -->
+	<select id="selectWithoutFilterHotelId" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from
+		t_hotel where provider_hotel_id not in
+		<foreach collection="hotelIdList" item="item" index="index"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	<!-- this is the method of filterByCityIdAndHotelId -->
+	<select id="filterByCityIdAndHotelId" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from
+		t_hotel where provider_hotel_id not in
+		<foreach collection="hotelIdList" item="item" index="index"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		and city_id not in
+		<foreach collection="cityIdList" item="item" index="index"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	<!-- this is the method of filterPageByCityIdAndHotelId -->
+	<select id="filterPageByCityIdAndHotelId" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from
+		t_hotel where provider_hotel_id not in
+		<foreach collection="hotelIdList" item="item" index="index"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		and city_id not in
+		<foreach collection="cityIdList" item="item" index="index"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	<!-- this is the method of filterPageByCitylIdList -->
+	<select id="filterPageByCitylIdList" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from
+		t_hotel where city_id  in
+		<foreach collection="cityIdList" item="item" index="index"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	<!-- this is the method of filterPageByHotelIdList -->
+	<select id="filterPageByHotelIdList" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from
+		t_hotel where provider_hotel_id not in
+		<foreach collection="hotelIdList" item="item" index="index"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	<!-- this is the method of findInCityId -->
+	<select id="findInCityId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from
+		t_hotel where city_id = #{cityId,jdbcType=INTEGER}
+
+	</select>
+	<!-- this is the method of filterPageByCityIdListAndHotelIdListWithCityId -->
+	<select id="filterPageByCityIdListAndHotelIdListWithCityId"
+		resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from
+		t_hotel where provider_hotel_id not in
+		<foreach collection="hotelIdList" item="item" index="index"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		and city_id not in
+		<foreach collection="cityIdList" item="item" index="index"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		and city_id = #{cityId,jdbcType=INTEGER}
+	</select>
+	<!-- this is the method of filterPageByHotelIdListWithCityId -->
+	<select id="filterPageByHotelIdListWithCityId" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from
+		t_hotel where provider_hotel_id not in
+		<foreach collection="hotelIdList" item="item" index="index"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		and city_id = #{cityId,jdbcType=INTEGER}
+	</select>
+	<!-- this is the method of filterPageByCitylIdListWithCityId -->
+	<select id="filterPageByCitylIdListWithCityId" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from
+		t_hotel where city_id not in
+		<foreach collection="cityIdList" item="item" index="index"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		and city_id = #{cityId,jdbcType=INTEGER}
+	</select>
+	<!-- this is the method of selectedByCityId -->
+	<select id="selectedByCityId" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from
+		t_hotel where city_id in
+		<foreach collection="cityIdList" item="item" index="index"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+</mapper>

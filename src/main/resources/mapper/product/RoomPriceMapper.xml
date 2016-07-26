@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.distinct.hotel.product.dao.RoomPriceMapper">
+	<resultMap id="BaseResultMap" type="com.distinct.hotel.product.model.RoomPrice">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="provider_id" property="providerId" jdbcType="INTEGER" />
+		<result column="room_id" property="roomId" jdbcType="INTEGER" />
+		<result column="room_amount" property="roomAmount" jdbcType="INTEGER" />
+		<result column="sale_date" property="saleDate" jdbcType="DATE" />
+		<result column="sale_price" property="salePrice" jdbcType="DOUBLE" />
+		<result column="breakfast_type" property="breakfastType"
+			jdbcType="INTEGER" />
+		<result column="created" property="created" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		id, provider_id, room_id, room_amount, sale_date,
+		sale_price,
+		breakfast_type, created
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.distinct.hotel.product.model.RoomPriceExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from t_room_price
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_room_price
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		t_room_price
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.distinct.hotel.product.model.RoomPriceExample">
+		delete from t_room_price
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.distinct.hotel.product.model.RoomPrice">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into t_room_price (provider_id, room_id, room_amount,
+		sale_date, sale_price, breakfast_type,
+		created)
+		values
+		(#{providerId,jdbcType=INTEGER}, #{roomId,jdbcType=INTEGER},
+		#{roomAmount,jdbcType=INTEGER},
+		#{saleDate,jdbcType=DATE},
+		#{salePrice,jdbcType=DOUBLE}, #{breakfastType,jdbcType=INTEGER},
+		#{created,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.distinct.hotel.product.model.RoomPrice">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into t_room_price
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="providerId != null">
+				provider_id,
+			</if>
+			<if test="roomId != null">
+				room_id,
+			</if>
+			<if test="roomAmount != null">
+				room_amount,
+			</if>
+			<if test="saleDate != null">
+				sale_date,
+			</if>
+			<if test="salePrice != null">
+				sale_price,
+			</if>
+			<if test="breakfastType != null">
+				breakfast_type,
+			</if>
+			<if test="created != null">
+				created,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="providerId != null">
+				#{providerId,jdbcType=INTEGER},
+			</if>
+			<if test="roomId != null">
+				#{roomId,jdbcType=INTEGER},
+			</if>
+			<if test="roomAmount != null">
+				#{roomAmount,jdbcType=INTEGER},
+			</if>
+			<if test="saleDate != null">
+				#{saleDate,jdbcType=DATE},
+			</if>
+			<if test="salePrice != null">
+				#{salePrice,jdbcType=DOUBLE},
+			</if>
+			<if test="breakfastType != null">
+				#{breakfastType,jdbcType=INTEGER},
+			</if>
+			<if test="created != null">
+				#{created,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.distinct.hotel.product.model.RoomPriceExample"
+		resultType="java.lang.Integer">
+		select count(*) from t_room_price
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update t_room_price
+		<set>
+			<if test="record.id != null">
+				id = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.providerId != null">
+				provider_id = #{record.providerId,jdbcType=INTEGER},
+			</if>
+			<if test="record.roomId != null">
+				room_id = #{record.roomId,jdbcType=INTEGER},
+			</if>
+			<if test="record.roomAmount != null">
+				room_amount = #{record.roomAmount,jdbcType=INTEGER},
+			</if>
+			<if test="record.saleDate != null">
+				sale_date = #{record.saleDate,jdbcType=DATE},
+			</if>
+			<if test="record.salePrice != null">
+				sale_price = #{record.salePrice,jdbcType=DOUBLE},
+			</if>
+			<if test="record.breakfastType != null">
+				breakfast_type =
+				#{record.breakfastType,jdbcType=INTEGER},
+			</if>
+			<if test="record.created != null">
+				created = #{record.created,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update t_room_price
+		set id = #{record.id,jdbcType=INTEGER},
+		provider_id
+		= #{record.providerId,jdbcType=INTEGER},
+		room_id =
+		#{record.roomId,jdbcType=INTEGER},
+		room_amount =
+		#{record.roomAmount,jdbcType=INTEGER},
+		sale_date =
+		#{record.saleDate,jdbcType=DATE},
+		sale_price =
+		#{record.salePrice,jdbcType=DOUBLE},
+		breakfast_type =
+		#{record.breakfastType,jdbcType=INTEGER},
+		created =
+		#{record.created,jdbcType=TIMESTAMP}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.distinct.hotel.product.model.RoomPrice">
+		update t_room_price
+		<set>
+			<if test="providerId != null">
+				provider_id = #{providerId,jdbcType=INTEGER},
+			</if>
+			<if test="roomId != null">
+				room_id = #{roomId,jdbcType=INTEGER},
+			</if>
+			<if test="roomAmount != null">
+				room_amount = #{roomAmount,jdbcType=INTEGER},
+			</if>
+			<if test="saleDate != null">
+				sale_date = #{saleDate,jdbcType=DATE},
+			</if>
+			<if test="salePrice != null">
+				sale_price = #{salePrice,jdbcType=DOUBLE},
+			</if>
+			<if test="breakfastType != null">
+				breakfast_type = #{breakfastType,jdbcType=INTEGER},
+			</if>
+			<if test="created != null">
+				created = #{created,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.distinct.hotel.product.model.RoomPrice">
+		update
+		t_room_price
+		set provider_id = #{providerId,jdbcType=INTEGER},
+		room_id =
+		#{roomId,jdbcType=INTEGER},
+		room_amount =
+		#{roomAmount,jdbcType=INTEGER},
+		sale_date = #{saleDate,jdbcType=DATE},
+		sale_price = #{salePrice,jdbcType=DOUBLE},
+		breakfast_type =
+		#{breakfastType,jdbcType=INTEGER},
+		created =
+		#{created,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!--一个星期内的价格 -->
+	<select id="getRoomPrice" resultType="java.lang.String">
+		select
+		room_id,sale_date,sale_price from t_room_price
+		where sale_date BETWEEN
+		'2016-03-26' AND '2016-04-01'
+	</select>
+
+	<!--按照日期查找的数据，一个时间段内的数据 -->
+	<select id="findRoomPriceByDate" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_room_price
+		where sale_date BETWEEN
+		'2016-03-26' AND '2016-04-01'
+	</select>
+
+	<!-- 根据房型id去找房价表数据 -->
+	<select id="findRoomPriceByRoomId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_room_price where room_id = #{roomId,jdbcType=INTEGER}
+	</select>
+
+	<!-- //两个日期查找 -->
+	<select id="findRoomPriceByAnyDate" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		t_room_price
+		where sale_date >= #{saleDate,jdbcType=DATE}
+		AND
+		sale_date &lt;
+		#{nextDate,jdbcType=DATE}
+		AND
+		room_id =
+		#{roomId,jdbcType=INTEGER}
+	</select>
+
+	<!-- //单日期查找 -->
+	<select id="findRoomPriceByDateAndRoomId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		t_room_price
+		where sale_date &gt;= 'new Date()'
+		AND
+		sale_date &lt;
+		#{nextDate,jdbcType=DATE}
+		AND
+		room_id = #{roomId,jdbcType=INTEGER}
+	</select>
+
+	<!-- //根据销售日期和房型id找一个房价对象 -->
+	<select id="findRoomPriceBysaleDateNRoomId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		t_room_price
+		where sale_date = #{saleDate,jdbcType=DATE}
+		AND
+		room_id
+		= #{roomId,jdbcType=INTEGER}
+	</select>
+
+	<!-- &lt; 小于 -->
+	<select id="findRoomPriceBetweenTwoDateByProviderIdNRoomId"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		t_room_price
+		where sale_date >= #{saleDate,jdbcType=DATE}
+		AND
+		sale_date &lt;
+		#{nextDate,jdbcType=DATE}
+		AND
+		room_id =
+		#{roomId,jdbcType=INTEGER}
+		AND
+		provider_id =
+		#{providerId,jdbcType=INTEGER}
+	</select>
+
+	<select id="findRoomPriceBysaleDateNRoomIdNProviderId"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		t_room_price
+		where sale_date = #{saleDate,jdbcType=DATE}
+		AND
+		room_id
+		= #{roomId,jdbcType=INTEGER}
+		AND
+		provider_id =
+		#{providerId,jdbcType=INTEGER}
+	</select>
+</mapper>

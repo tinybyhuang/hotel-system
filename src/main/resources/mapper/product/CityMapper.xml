@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.distinct.hotel.product.dao.CityMapper">
+	<resultMap id="BaseResultMap" type="com.distinct.hotel.product.model.City">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="city_name" property="cityName" jdbcType="VARCHAR" />
+		<result column="province_id" property="provinceId" jdbcType="INTEGER" />
+		<result column="country_id" property="countryId" jdbcType="INTEGER" />
+		<result column="country_name" property="countryName" jdbcType="VARCHAR" />
+		<result column="created" property="created" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		id, city_name, province_id, country_id, country_name,
+		created
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.distinct.hotel.product.model.CityExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from t_city
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_city
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_city
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.distinct.hotel.product.model.CityExample">
+		delete from t_city
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.distinct.hotel.product.model.City">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into t_city (city_name, province_id, country_id,
+		country_name,
+		created)
+		values (#{cityName,jdbcType=VARCHAR},
+		#{provinceId,jdbcType=INTEGER},
+		#{countryId,jdbcType=INTEGER},
+		#{countryName,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.distinct.hotel.product.model.City">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into t_city
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="cityName != null">
+				city_name,
+			</if>
+			<if test="provinceId != null">
+				province_id,
+			</if>
+			<if test="countryId != null">
+				country_id,
+			</if>
+			<if test="countryName != null">
+				country_name,
+			</if>
+			<if test="created != null">
+				created,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="cityName != null">
+				#{cityName,jdbcType=VARCHAR},
+			</if>
+			<if test="provinceId != null">
+				#{provinceId,jdbcType=INTEGER},
+			</if>
+			<if test="countryId != null">
+				#{countryId,jdbcType=INTEGER},
+			</if>
+			<if test="countryName != null">
+				#{countryName,jdbcType=VARCHAR},
+			</if>
+			<if test="created != null">
+				#{created,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.distinct.hotel.product.model.CityExample"
+		resultType="java.lang.Integer">
+		select count(*) from t_city
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update t_city
+		<set>
+			<if test="record.id != null">
+				id = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.cityName != null">
+				city_name = #{record.cityName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.provinceId != null">
+				province_id = #{record.provinceId,jdbcType=INTEGER},
+			</if>
+			<if test="record.countryId != null">
+				country_id = #{record.countryId,jdbcType=INTEGER},
+			</if>
+			<if test="record.countryName != null">
+				country_name = #{record.countryName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.created != null">
+				created = #{record.created,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update t_city
+		set id = #{record.id,jdbcType=INTEGER},
+		city_name =
+		#{record.cityName,jdbcType=VARCHAR},
+		province_id =
+		#{record.provinceId,jdbcType=INTEGER},
+		country_id =
+		#{record.countryId,jdbcType=INTEGER},
+		country_name =
+		#{record.countryName,jdbcType=VARCHAR},
+		created =
+		#{record.created,jdbcType=TIMESTAMP}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.distinct.hotel.product.model.City">
+		update t_city
+		<set>
+			<if test="cityName != null">
+				city_name = #{cityName,jdbcType=VARCHAR},
+			</if>
+			<if test="provinceId != null">
+				province_id = #{provinceId,jdbcType=INTEGER},
+			</if>
+			<if test="countryId != null">
+				country_id = #{countryId,jdbcType=INTEGER},
+			</if>
+			<if test="countryName != null">
+				country_name = #{countryName,jdbcType=VARCHAR},
+			</if>
+			<if test="created != null">
+				created = #{created,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.distinct.hotel.product.model.City">
+		update t_city
+		set
+		city_name = #{cityName,jdbcType=VARCHAR},
+		province_id =
+		#{provinceId,jdbcType=INTEGER},
+		country_id =
+		#{countryId,jdbcType=INTEGER},
+		country_name =
+		#{countryName,jdbcType=VARCHAR},
+		created =
+		#{created,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<!-- method for selectById -->
+	<select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_city
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<!-- method for selectedBycityIdList -->
+	<select id="selectedBycityIdList" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_city
+		where id in
+		<foreach collection="cityIdList" item="item" index="index"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	<!-- method for selectedWithoutCityIdList -->
+	<select id="selectedWithoutCityIdList" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_city
+		where id not in
+		<foreach collection="cityIdList" item="item" index="index"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	<!-- method for getAllCities -->
+	<select id="getAllCities" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_city
+	</select>
+
+	<select id="findAllId" resultType="java.lang.Integer">
+		select
+		id
+		from
+		t_city
+	</select>
+<!-- method for findAllWithoutCityId -->
+	<select id="findAllWithoutCityId" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_city
+		where id != #{cityId,jdbcType=INTEGER}
+	</select>
+</mapper>

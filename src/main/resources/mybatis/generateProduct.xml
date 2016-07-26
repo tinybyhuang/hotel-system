@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+	<classPathEntry location="${classPathEntry.location}" />
+	<context id="context">
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+			<property name="suppressDate" value="true" />
+		</commentGenerator>
+		<!-- jdbc连接信息 -->
+		<jdbcConnection driverClass="${jdbc.driverClass}"
+			connectionURL="${jdbc.connectionURL}" userId="${jdbc.user}" password="${jdbc.password}" />
+		<!-- 生成对象 -->
+		<javaModelGenerator targetProject="${model.target.dir}" targetPackage="com.distinct.hotel.product.model">
+			<property name="enableSubPackages" value="true" />
+		</javaModelGenerator>
+		<!-- 生成用于查询的Example对象 -->
+		<sqlMapGenerator targetProject="${mapper.target.dir}" targetPackage="mapper/product">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+		<!-- 生成DAO的类文件以及配置文件 -->
+		<javaClientGenerator targetProject="${dao.target.dir}" targetPackage="com.distinct.hotel.product.dao" 
+			type="XMLMAPPER">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+		
+		<!-- 想要生成的数据库表,自动化工具会根据该表的结构生成相应的model对象 -->
+		
+<!-- 		<table tableName="t_room_price" domainObjectName="RoomPrice">
+		   <generatedKey column="id" sqlStatement="MySql" identity="true" />
+		</table> -->
+<!-- 		
+		<table tableName="t_bed" domainObjectName="Bed">
+		   <generatedKey column="id" sqlStatement="MySql" identity="true" />
+		</table>
+		
+		<table tableName="t_breakfast" domainObjectName="Breakfast">
+		   <generatedKey column="id" sqlStatement="MySql" identity="true" />
+		</table>
+		
+		<table tableName="t_detail_increase_rule" domainObjectName="DetailIncreaseRule">
+		   <generatedKey column="id" sqlStatement="MySql" identity="true" />
+		</table> -->
+		
+		<table tableName="t_hotel" domainObjectName="Hotel">
+		   <generatedKey column="id" sqlStatement="MySql" identity="true" />
+		</table>
+		
+		<table tableName="t_room" domainObjectName="Room">
+		   <generatedKey column="id" sqlStatement="MySql" identity="true" />
+		</table>
+		
+<!--		<table tableName="t_sale_status" domainObjectName="SaleStatus">
+		   <generatedKey column="id" sqlStatement="MySql" identity="true" />
+		</table>
+		
+		<table tableName="t_city" domainObjectName="City">
+		   <generatedKey column="id" sqlStatement="MySql" identity="true" />
+		</table> -->
+
+		
+	</context>
+</generatorConfiguration>
